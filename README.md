@@ -1,3 +1,7 @@
+<!-- portfolio-strip:start (brief 40) -->
+<sub>**Brendan Lynskey** · [Portfolio home](https://brendanjameslynskey.github.io/) · [Interactive sites](https://brendanjameslynskey.github.io/#sites)</sub>
+<!-- portfolio-strip:end -->
+
 # Algorithms & Data Structures — Series Hub
 
 Twenty-four interactive decks on the core of computer science, from complexity and arrays to network flow, plus an LLM-examined coding gym to practise them by hand.
