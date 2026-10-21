@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithms &amp; Data Structures &mdash; Series Hub</title>
+    <meta name="description" content="Twenty-four interactive decks on the core of computer science, from complexity and arrays to network flow, plus an LLM-examined coding gym to practise them by hand.">
+    <meta name="theme-color" content="#fafaf8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fafaf8; --bg-card: #f1f1ee; --bg-code: #e9e9e5;
+            --text-primary: #141414; --text-secondary: #66665f;
+            --accent: #2340c8; --accent-2: #bf3428; --accent-3: #157553; --accent-4: #6536b8; --accent-5: #8c5d06;
+            --accent-dim: color-mix(in srgb, var(--accent) 12%, transparent);
+            --accent-glow: color-mix(in srgb, var(--accent) 14%, transparent);
+            --border: #d4d4ce;
+            --font-display: 'Schibsted Grotesk', sans-serif;
+            --font-mono: 'Azeret Mono', monospace;
+            --font-body: 'Schibsted Grotesk', sans-serif;
+            --max-width: 980px;
+            color-scheme: light;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .deck-card { transition: none !important; } .deck-card:hover { transform: none !important; } }
+        body { background: var(--bg-primary); color: var(--text-primary);
+               font-family: var(--font-body); font-size: 17px; line-height: 1.7; overflow-x: hidden; }
+        a { color: var(--accent); }
+        a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .hero { min-height: 52vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+                padding: 4rem 1.5rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+        @supports (overflow-x: clip) { .hero { overflow: visible; overflow-x: clip; } }
+        .hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+                        width: 760px; height: 640px; max-width: 100vw;
+                        background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+                        pointer-events: none; z-index: 0; }
+        .hero > * { position: relative; z-index: 1; }
+        .series-label { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent);
+                        letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem; }
+        .hero h1 { font-family: var(--font-display); font-size: clamp(2.1rem, 5.5vw, 3.3rem); font-weight: 700;
+                   line-height: 1.15; margin-bottom: 1rem; overflow-wrap: anywhere; }
+        .hero h1 .accent { color: var(--accent); }
+        .hero .subtitle { font-size: 1.12rem; color: var(--text-secondary); max-width: 760px; margin-bottom: 1.6rem; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; max-width: 820px; list-style: none; }
+        .tag { font-family: var(--font-mono); font-size: 0.74rem; padding: 0.25rem 0.7rem; border-radius: 999px;
+               border: 1px solid var(--accent); color: var(--text-primary); background: var(--accent-dim); }
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 2rem 1.5rem; }
+        h2 { font-family: var(--font-display); font-size: 1.65rem; font-weight: 700; color: var(--accent);
+             margin: 2rem 0 1rem; }
+        h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--text-primary);
+             margin: 1.75rem 0 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--border); }
+        h3 .part { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-secondary);
+                   letter-spacing: 0.08em; text-transform: uppercase; margin-right: 0.5rem; }
+        p.lead, p.part-intro { color: var(--text-secondary); margin-bottom: 0.9rem; }
+        .callout { background: var(--bg-card); border-left: 3px solid var(--accent);
+                   border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin: 1rem 0 1.5rem; }
+        .callout p { color: var(--text-secondary); }
+        .callout p strong { color: var(--text-primary); }
+        .callout p + p { margin-top: 0.6rem; }
+        .arc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;
+                    margin: 1rem 0 1.5rem; list-style: none; }
+        .arc-cell { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--c, var(--accent));
+                    border-radius: 6px; padding: 0.75rem 1rem; }
+        .arc-cell a { font-family: var(--font-display); font-weight: 600; color: var(--text-primary);
+                      text-decoration: underline; text-decoration-color: var(--c, var(--accent)); text-underline-offset: 3px; }
+        .arc-cell p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem; }
+        .deck-list { display: flex; flex-direction: column; gap: 0.6rem; list-style: none; padding: 0; }
+        .deck-card { display: flex; gap: 1rem; padding: 1rem 1.25rem; background: var(--bg-card);
+                     border: 1px solid var(--border); border-left: 3px solid var(--c, var(--accent)); border-radius: 6px;
+                     transition: border-color 0.15s, transform 0.15s; }
+        .deck-card:hover { border-color: var(--c, var(--accent)); transform: translateX(2px); }
+        .deck-card .num { font-family: var(--font-mono); font-size: 0.9rem; color: var(--c, var(--accent));
+                          min-width: 2.4rem; padding-top: 0.15rem; font-weight: 500; }
+        .deck-card .body { flex: 1; min-width: 0; }
+        .deck-card .deck-title { font-family: var(--font-display); font-size: 1.06rem; font-weight: 600;
+                                 color: var(--text-primary); text-decoration: none; overflow-wrap: anywhere; }
+        .deck-card a.deck-title:hover, .deck-card a.deck-title:focus-visible { text-decoration: underline;
+                                 text-decoration-color: var(--c, var(--accent)); text-underline-offset: 3px; }
+        .deck-card .desc { font-size: 0.92rem; color: var(--text-secondary); margin-top: 0.2rem; overflow-wrap: anywhere; }
+        .deck-card .desc code, .lead code { font-family: var(--font-mono); font-size: 0.85em; background: var(--bg-code);
+                                 padding: 0.05rem 0.3rem; border-radius: 3px; color: var(--text-primary); }
+        .deck-card .meta { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary);
+                           margin-top: 0.45rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .deck-card .meta a { color: var(--text-secondary); text-decoration: underline; text-decoration-style: dotted;
+                             text-underline-offset: 3px; padding: 0.1rem 0; }
+        .deck-card .meta a:hover { color: var(--text-primary); }
+        ul.related { list-style: none; display: grid; gap: 0.5rem; }
+        ul.related li { color: var(--text-secondary); }
+        ul.related a { font-weight: 600; }
+        .footer { text-align: center; padding: 2.5rem 1.5rem; color: var(--text-secondary); font-size: 0.88rem;
+                  border-top: 1px solid var(--border); max-width: var(--max-width); margin: 3rem auto 0; }
+        .footer a { color: var(--text-primary); text-decoration-color: var(--accent); }
+        .footer p + p { margin-top: 0.5rem; }
+        .footer, ul.related li { overflow-wrap: anywhere; }
+        @media (max-width: 640px) {
+            .container { padding: 1.5rem 1rem; }
+            .hero { padding: 3rem 1rem 2rem; min-height: 0; }
+            .deck-card { padding: 0.85rem 0.9rem; gap: 0.6rem; }
+            .deck-card .num { min-width: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+        }
+    </style>
+<!-- portfolio-strip:start (brief 40) -->
+<style>.bl-strip{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem .6rem;box-sizing:border-box;width:100%;align-self:stretch;margin:0;padding:.45rem 1rem;background:var(--bg-card,var(--surface,var(--bg2,rgba(127,127,127,.08))));border-bottom:1px solid var(--border,rgba(127,127,127,.25));color:var(--text-secondary,var(--text2,var(--fg-dim,var(--muted,inherit))));font:500 13px/1.5 var(--font-body,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);letter-spacing:.01em;position:relative;z-index:50;text-align:left}.bl-strip b{color:var(--text-primary,var(--text,var(--fg,inherit)));font-weight:700}.bl-strip a{color:var(--text-primary,var(--text,var(--fg,inherit)));text-decoration:underline;text-decoration-color:var(--accent,currentColor);text-decoration-thickness:2px;text-underline-offset:4px;padding:.15rem 0}.bl-strip a:hover,.bl-strip a:focus-visible{text-decoration-thickness:3px}.bl-strip span{opacity:.6}</style>
+<!-- portfolio-strip:end -->
+</head>
+<body>
+<!-- portfolio-strip:start (brief 40) -->
+<nav class="bl-strip" aria-label="Portfolio"><b>Brendan Lynskey</b><span aria-hidden="true">·</span><a href="https://brendanjameslynskey.github.io/">Portfolio home</a><span aria-hidden="true">·</span><a href="https://brendanjameslynskey.github.io/#sites">Interactive sites</a></nav>
+<!-- portfolio-strip:end -->
+<header class="hero">
+    <div class="series-label">Software · Series hub &middot; 24 decks + a coding gym</div>
+    <h1>Algorithms <span class="accent">&amp; Data Structures</span></h1>
+    <p class="subtitle">Twenty-four interactive decks on the core of computer science, from complexity and arrays to network flow, plus an LLM-examined coding gym to practise them by hand.</p>
+    <ul class="tags" aria-label="Topics"><li class="tag">Big-O</li><li class="tag">Hash tables</li><li class="tag">Trees</li><li class="tag">Heaps</li><li class="tag">Graphs</li><li class="tag">Dynamic programming</li><li class="tag">Shortest paths</li><li class="tag">Practice</li></ul>
+</header>
+<main class="container">
+    <div class="callout">
+        <p><strong>Who this is for.</strong> Anyone preparing for coding interviews or revisiting the fundamentals.</p>
+        <p><strong>How to use it.</strong> Start with complexity, learn the structures, then the algorithms that use them; the coding gym at the end is for practice by hand.</p>
+    </div>
+
+    <h2>The reading order</h2>
+    <ol class="arc-grid" aria-label="Parts">
+<li class="arc-cell" style="--c:var(--accent)"><a href="#part-foundations">Foundations</a><p>01 &middot; 1 entry</p></li>
+<li class="arc-cell" style="--c:var(--accent-2)"><a href="#part-data-structures">Data structures</a><p>02&ndash;13 &middot; 12 entries</p></li>
+<li class="arc-cell" style="--c:var(--accent-3)"><a href="#part-algorithms">Algorithms</a><p>14&ndash;24 &middot; 11 entries</p></li>
+<li class="arc-cell" style="--c:var(--accent-4)"><a href="#part-practice">Practice</a><p>25 &middot; 1 entry</p></li>
+    </ol>
+
+<h3 id="part-foundations"><span class="part">Part 1 &middot; 01</span>Foundations</h3>
+<p class="part-intro">How to measure an algorithm.</p>
+<ol class="deck-list">
+<li class="deck-card" style="--c:var(--accent)"><div class="num">01</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Computational_Complexity/">Computational Complexity &rarr;</a><p class="desc">Interactive presentation on computational complexity — Big-O, P vs NP, NP-completeness, reductions, approximation, and amortised analysis</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Computational_Complexity/">open</a> <a href="https://github.com/BrendanJamesLynskey/Computational_Complexity/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Computational_Complexity">repo</a></p></div></li>
+</ol>
+<h3 id="part-data-structures"><span class="part">Part 2 &middot; 02&ndash;13</span>Data structures</h3>
+<p class="part-intro">From contiguous memory to probabilistic sketches.</p>
+<ol class="deck-list">
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">02</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Arrays_and_Linked_Lists/">Arrays and Linked Lists &rarr;</a><p class="desc">Interactive presentation on arrays and linked lists — contiguous memory, dynamic arrays, singly linked, doubly linked, skip lists, and cache performance</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Arrays_and_Linked_Lists/">open</a> <a href="https://github.com/BrendanJamesLynskey/Arrays_and_Linked_Lists/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Arrays_and_Linked_Lists">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">03</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Stacks_and_Queues/">Stacks and Queues &rarr;</a><p class="desc">Interactive presentation on stacks and queues — LIFO, FIFO, priority queues, monotonic structures, deque, and expression evaluation</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Stacks_and_Queues/">open</a> <a href="https://github.com/BrendanJamesLynskey/Stacks_and_Queues/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Stacks_and_Queues">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">04</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Hash_Tables/">Hash Tables &rarr;</a><p class="desc">Interactive presentation on hash tables — hash functions, collision resolution, open addressing, cuckoo hashing, load factor, and concurrent maps</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Hash_Tables/">open</a> <a href="https://github.com/BrendanJamesLynskey/Hash_Tables/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Hash_Tables">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">05</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Binary_Trees/">Binary Trees &rarr;</a><p class="desc">Interactive presentation on binary trees — traversals, tree properties, LCA, Morris traversal, expression trees, and serialisation</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Binary_Trees/">open</a> <a href="https://github.com/BrendanJamesLynskey/Binary_Trees/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Binary_Trees">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">06</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Binary_Search_Trees/">Binary Search Trees &rarr;</a><p class="desc">Interactive presentation on binary search trees — BST invariant, search and insertion, balancing, treaps, splay trees, and order statistics</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Binary_Search_Trees/">open</a> <a href="https://github.com/BrendanJamesLynskey/Binary_Search_Trees/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Binary_Search_Trees">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">07</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Balanced_Trees/">Balanced Trees &rarr;</a><p class="desc">Interactive presentation on balanced trees — AVL trees, Red-Black trees, rotations, 2-3 trees, balance factor, and persistent trees</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Balanced_Trees/">open</a> <a href="https://github.com/BrendanJamesLynskey/Balanced_Trees/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Balanced_Trees">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">08</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/B_Trees/">B-Trees &rarr;</a><p class="desc">Interactive presentation on B-trees — B-tree operations, B+ trees, disk I/O, database indexes, node splitting, and LSM comparison</p><p class="meta"><a href="https://brendanjameslynskey.github.io/B_Trees/">open</a> <a href="https://github.com/BrendanJamesLynskey/B_Trees/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/B_Trees">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">09</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Heaps_and_Priority_Queues/">Heaps and Priority Queues &rarr;</a><p class="desc">Interactive presentation on heaps — binary heaps, heap sort, Fibonacci heaps, build-heap, decrease-key, and priority queue ADT</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Heaps_and_Priority_Queues/">open</a> <a href="https://github.com/BrendanJamesLynskey/Heaps_and_Priority_Queues/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Heaps_and_Priority_Queues">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">10</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Tries/">Tries &rarr;</a><p class="desc">Interactive presentation on tries — prefix trees, radix trees, suffix trees, autocomplete, Patricia tries, and IP routing</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Tries/">open</a> <a href="https://github.com/BrendanJamesLynskey/Tries/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Tries">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">11</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Graph_Data_Structures/">Graph Data Structures &rarr;</a><p class="desc">Interactive presentation on graph data structures — adjacency matrix, adjacency list, CSR format, DAGs, property graphs, and graph libraries</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Graph_Data_Structures/">open</a> <a href="https://github.com/BrendanJamesLynskey/Graph_Data_Structures/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Graph_Data_Structures">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">12</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Disjoint_Sets_Union_Find/">Disjoint Sets (Union-Find) &rarr;</a><p class="desc">Interactive presentation on disjoint sets — union by rank, path compression, inverse Ackermann, Kruskal's MST, and connected components</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Disjoint_Sets_Union_Find/">open</a> <a href="https://github.com/BrendanJamesLynskey/Disjoint_Sets_Union_Find/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Disjoint_Sets_Union_Find">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-2)"><div class="num">13</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Bloom_Filters_and_Probabilistic_DS/">Bloom Filters &amp; Probabilistic DS &rarr;</a><p class="desc">Interactive presentation on probabilistic data structures — Bloom filters, HyperLogLog, Count-Min Sketch, cuckoo filters, and cardinality estimation</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Bloom_Filters_and_Probabilistic_DS/">open</a> <a href="https://github.com/BrendanJamesLynskey/Bloom_Filters_and_Probabilistic_DS/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Bloom_Filters_and_Probabilistic_DS">repo</a></p></div></li>
+</ol>
+<h3 id="part-algorithms"><span class="part">Part 3 &middot; 14&ndash;24</span>Algorithms</h3>
+<p class="part-intro">Sorting and searching, the design paradigms, then graphs.</p>
+<ol class="deck-list">
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">14</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Sorting_Algorithms/">Sorting Algorithms &rarr;</a><p class="desc">Interactive presentation on sorting algorithms — bubble, merge, quick, heap, radix, counting, stability, complexity analysis, and real-world implementations</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Sorting_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Sorting_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Sorting_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">15</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Divide_and_Conquer/">Divide and Conquer &rarr;</a><p class="desc">Interactive presentation on divide and conquer — Master theorem, merge sort, quick sort, Strassen's algorithm, closest pair, and FFT</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Divide_and_Conquer/">open</a> <a href="https://github.com/BrendanJamesLynskey/Divide_and_Conquer/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Divide_and_Conquer">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">16</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Hashing_Algorithms/">Hashing Algorithms &rarr;</a><p class="desc">Interactive presentation on hashing algorithms — hash functions, collision resolution, open addressing, consistent hashing, cryptographic hashes, and perfect hashing</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Hashing_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Hashing_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Hashing_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">17</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/String_Matching_Algorithms/">String Matching Algorithms &rarr;</a><p class="desc">Interactive presentation on string matching — KMP, Rabin-Karp, Boyer-Moore, suffix arrays, Aho-Corasick, and pattern matching</p><p class="meta"><a href="https://brendanjameslynskey.github.io/String_Matching_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/String_Matching_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/String_Matching_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">18</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Greedy_Algorithms/">Greedy Algorithms &rarr;</a><p class="desc">Interactive presentation on greedy algorithms — greedy choice property, activity selection, Huffman coding, fractional knapsack, and exchange arguments</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Greedy_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Greedy_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Greedy_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">19</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Dynamic_Programming/">Dynamic Programming &rarr;</a><p class="desc">Interactive presentation on dynamic programming — optimal substructure, memoization, tabulation, knapsack, edit distance, and state transitions</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Dynamic_Programming/">open</a> <a href="https://github.com/BrendanJamesLynskey/Dynamic_Programming/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Dynamic_Programming">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">20</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Backtracking_Algorithms/">Backtracking Algorithms &rarr;</a><p class="desc">Interactive presentation on backtracking — state space trees, N-Queens, Sudoku, constraint satisfaction, pruning, and branch and bound</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Backtracking_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Backtracking_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Backtracking_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">21</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Graph_Algorithms/">Graph Algorithms &rarr;</a><p class="desc">Interactive presentation on graph algorithms — BFS, DFS, topological sort, connected components, cycle detection, and graph coloring</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Graph_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Graph_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Graph_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">22</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Shortest_Path_Algorithms/">Shortest Path Algorithms &rarr;</a><p class="desc">Interactive presentation on shortest path algorithms — Dijkstra, Bellman-Ford, Floyd-Warshall, A* search, negative cycles, and routing</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Shortest_Path_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Shortest_Path_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Shortest_Path_Algorithms">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">23</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Minimum_Spanning_Trees/">Minimum Spanning Trees &rarr;</a><p class="desc">Interactive presentation on minimum spanning trees — Kruskal's, Prim's, Borůvka's, cut property, Union-Find, and network design</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Minimum_Spanning_Trees/">open</a> <a href="https://github.com/BrendanJamesLynskey/Minimum_Spanning_Trees/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Minimum_Spanning_Trees">repo</a></p></div></li>
+<li class="deck-card" style="--c:var(--accent-3)"><div class="num">24</div><div class="body"><a class="deck-title" href="https://brendanjameslynskey.github.io/Network_Flow_Algorithms/">Network Flow Algorithms &rarr;</a><p class="desc">Interactive presentation on network flow — max-flow min-cut, Ford-Fulkerson, Edmonds-Karp, Dinic's, bipartite matching, and cost flow</p><p class="meta"><a href="https://brendanjameslynskey.github.io/Network_Flow_Algorithms/">open</a> <a href="https://github.com/BrendanJamesLynskey/Network_Flow_Algorithms/blob/main/presentation.md">markdown</a> <a href="https://github.com/BrendanJamesLynskey/Network_Flow_Algorithms">repo</a></p></div></li>
+</ol>
+<h3 id="part-practice"><span class="part">Part 4 &middot; 25</span>Practice</h3>
+<p class="part-intro">Writing it yourself.</p>
+<ol class="deck-list">
+<li class="deck-card" style="--c:var(--accent-4)"><div class="num">25</div><div class="body"><a class="deck-title" href="https://github.com/BrendanJamesLynskey/Coding_Challenge_Coach">Coding Challenge Coach &rarr;</a><p class="desc">LLM-examined, LeetCode-style practice for rebuilding hand-coding skill: 860 problems in Python, C, JavaScript, TypeScript, Verilog, SystemVerilog and VHDL, easy-first levels, hidden tests and a 100-point rubric, and an examiner that never writes your code</p><p class="meta"><a href="https://github.com/BrendanJamesLynskey/Coding_Challenge_Coach">open</a> <a href="https://github.com/BrendanJamesLynskey/Coding_Challenge_Coach/blob/main/prompts/portable_examiner.md">examiner prompt</a></p></div></li>
+</ol>
+
+    <h2>Related</h2>
+    <ul class="related">
+<li><a href="https://github.com/BrendanJamesLynskey/Interview_Algorithms">Algorithms: interview preparation</a> &mdash; From complexity analysis to dynamic programming</li>
+<li><a href="https://github.com/BrendanJamesLynskey/Interview_Data_Structures">Data Structures: interview preparation</a> &mdash; From arrays to advanced trees and hash structures</li>
+<li><a href="https://brendanjameslynskey.github.io/Compilers/">Compilers</a> &mdash; Ten decks that put automata, grammars and graphs to work</li>
+<li><a href="https://brendanjameslynskey.github.io/Cryptography/">Cryptography</a> &mdash; Hashes, finite fields and public-key algorithms</li>
+    </ul>
+</main>
+<footer class="footer">
+    <p>Part of the <a href="https://brendanjameslynskey.github.io/Software/">Software</a> index &middot; <a href="https://brendanjameslynskey.github.io/">Brendan Lynskey</a></p>
+    <p>Source: <a href="https://github.com/BrendanJamesLynskey/SW_Hub_Algorithms_Data_Structures">github.com/BrendanJamesLynskey/SW_Hub_Algorithms_Data_Structures</a> &middot; Educational use.</p>
+</footer>
+</body>
+</html>
